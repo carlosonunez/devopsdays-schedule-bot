@@ -13,7 +13,9 @@ services:
       - $PWD:/app:ro,delegated # fix rspec slowness due to size of vendor dir
       - /tmp:/tmp
     working_dir: /app
-    entrypoint: ruby
+    entrypoint: 
+      - ruby
+      - -I./lib
   unit:
     extends: ruby
     entrypoint: rspec
