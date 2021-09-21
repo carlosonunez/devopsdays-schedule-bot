@@ -1,0 +1,21 @@
+---
+name: Check What's Up Next
+on:
+  push:
+    paths:
+      - '!*/**'
+      - '.github/workflows/update.yml'
+  schedule:
+  - cron: '*/10 * * * *'
+
+jobs:
+  check_whats_up_next:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Decrypt environment file
+        run: docker-compose -f docker-compose.ci.yml run --rm decrypt-env
+        env:
+          ENV_PASSWORD: ${{ secrets.env_file_password }}
+      - name: Check for events coming up
+        run: docker-compose run --rm schedule-bot

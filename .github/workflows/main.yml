@@ -1,0 +1,23 @@
+---
+name: Test DevOpsDays Schedule Bot
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '*/**'
+      - '!README.md'
+      - '!bash_aliases'
+      - '!*.Dockerfile'
+      - '!.github/workflows/update.yml'
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Decrypt environment file
+        run: docker-compose -f docker-compose.ci.yml run --rm decrypt-env
+        env:
+          ENV_PASSWORD: ${{ secrets.env_file_password }}
+      - name: Unit tests
+        run: docker-compose run --rm unit
