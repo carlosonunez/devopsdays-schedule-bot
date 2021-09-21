@@ -1,0 +1,33 @@
+version: '2.2'
+services:
+  ruby:
+    build:
+      dockerfile: ruby.Dockerfile
+      context: .
+    environment:
+      - LOG_LEVEL
+      - LOAD_PATH="/app/lib"
+    env_file:
+      - .env
+    volumes:
+      - $PWD:/app:ro,delegated # fix rspec slowness due to size of vendor dir
+      - /tmp:/tmp
+    working_dir: /app
+    entrypoint: ruby
+  unit:
+    extends: ruby
+    entrypoint: rspec
+    env_file: .env.test
+    environment:
+      - LOG_LEVEL
+      - LOAD_PATH="/app/lib;/app/spec"
+    command:
+      - --tag
+      - unit
+      - --fail-fast
+      - --format
+      - documentation
+  schedule-bot:
+    extends: ruby
+    command:
+      - ./schedule_bot.rb

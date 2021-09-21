@@ -1,0 +1,21 @@
+# See spec/unit/bot_spec.rb to see the time that we are mocking!
+#
+name: "2021-fake-city" # The name of the event. Four digit year with the city name in lower-case, with no spaces.
+year: "2021" # The year of the event. Make sure it is in quotes.
+city: "fake-city" # The displayed city name of the event. Capitalize it.
+program:
+  - title: "First talk"
+    type: talk
+    date: 2021-09-21
+    start_time: "10:30"
+    end_time: "11:15"
+  - title: "Second talk"
+    type: workshop
+    date: 2021-09-21
+    start_time: "11:30"
+    end_time: "12:15"
+  - title: "Last talk"
+    type: workshop
+    date: 2021-09-21
+    start_time: "08:30"
+    end_time: "09:15"
